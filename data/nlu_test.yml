@@ -1,0 +1,39 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey there
+    - howdy
+    - good afternoon
+    - hi!
+    - what's up
+
+- intent: goodbye
+  examples: |
+    - later
+    - I'm leaving
+    - gotta go
+    - have a nice day
+    - see ya
+
+- intent: book_flight
+  examples: |
+    - I need to travel from [Munich]{"entity": "city", "role": "departure"} to [Dubai]{"entity": "city", "role": "destination"}
+    - get me a flight from [Chicago]{"entity": "city", "role": "departure"} to [Los Angeles]{"entity": "city", "role": "destination"}
+    - I'd like to book a plane from [Vienna]{"entity": "city", "role": "departure"} to [Singapore]{"entity": "city", "role": "destination"}
+    - fly from [Seoul]{"entity": "city", "role": "departure"} to [Sydney]{"entity": "city", "role": "destination"}
+
+- intent: search_restaurant
+  examples: |
+    - I want [Japanese](cuisine) food around [the waterfront]{"entity": "location"}
+    - find me [vegan](cuisine) restaurants in [East Village]{"entity": "location"}
+    - any [Indian](cuisine) spots near [Central Park]{"entity": "location"}
+    - looking for [BBQ](cuisine) near [downtown]{"entity": "location"}
+
+- intent: check_weather
+  examples: |
+    - how's the weather in [Madrid]{"entity": "city"}
+    - is it cold in [Moscow]{"entity": "city"} right now
+    - what should I wear in [Sydney]{"entity": "city"} today
+    - any storms coming in [Miami]{"entity": "city"}

@@ -1,0 +1,42 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hello
+    - hi there
+    - hey
+    - good morning
+    - hi, how are you?
+
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you later
+    - take care
+    - catch you later
+
+- intent: book_flight
+  examples: |
+    - I want to fly from [Berlin]{"entity": "city", "role": "departure"} to [San Francisco]{"entity": "city", "role": "destination"}
+    - book a flight from [New York]{"entity": "city", "role": "departure"} to [London]{"entity": "city", "role": "destination"}
+    - I need a ticket from [Paris]{"entity": "city", "role": "departure"} to [Tokyo]{"entity": "city", "role": "destination"}
+    - fly me from [Rome]{"entity": "city", "role": "departure"} to [Madrid]{"entity": "city", "role": "destination"}
+    - I'd like to travel from [Amsterdam]{"entity": "city", "role": "departure"} to [Bangkok]{"entity": "city", "role": "destination"}
+
+- intent: search_restaurant
+  examples: |
+    - find a [Italian](cuisine) restaurant near [downtown](location)
+    - I'm looking for [Thai](cuisine) food in [Midtown]{"entity": "location"}
+    - any good [sushi](cuisine) places in [Brooklyn]{"entity": "location"}
+    - show me [French](cuisine) restaurants close to [Times Square]{"entity": "location"}
+    - recommend a [Mexican](cuisine) place in [the city center]{"entity": "location"}
+
+- intent: check_weather
+  examples: |
+    - what's the weather in [Berlin]{"entity": "city"}
+    - will it rain in [London]{"entity": "city"} tomorrow
+    - weather forecast for [New York]{"entity": "city"}
+    - is it sunny in [Paris]{"entity": "city"}
+    - temperature in [Tokyo]{"entity": "city"} today
