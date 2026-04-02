@@ -49,16 +49,13 @@ class QwenEncoder(nn.Module):
                     if "lora_" not in name:
                         param.requires_grad_(False)
         else:
-            # Fully frozen – used only as a feature extractor
             for param in base_model.parameters():
                 param.requires_grad_(False)
 
         self.model = base_model
-        # Introspect the hidden size from model config
         self.hidden_size: int = base_model.config.hidden_size
 
     def _format_input(self, text: str) -> Tuple[str, int]:
-        # Returns (formatted_str, char_offset_where_text_starts)
         messages = [
             {"role": "system", "content": self.config.system_prompt},
             {"role": "user", "content": text},
@@ -68,12 +65,8 @@ class QwenEncoder(nn.Module):
             tokenize=False,
             add_generation_prompt=False,
         )
-        # The user text should appear verbatim somewhere in formatted.
-        # We take the *last* occurrence to skip any accidental matches in
-        # the system prompt.
         offset = formatted.rfind(text)
         if offset == -1:
-            # Fallback: assume the text is at the very end
             offset = len(formatted) - len(text)
         return formatted, offset
 
@@ -83,7 +76,6 @@ class QwenEncoder(nn.Module):
         word_spans: List[List[Tuple[int, int]]],
         max_words: int,
     ) -> torch.Tensor:
-        # Returns (B, max_words, hidden_size)
         device = next(self.model.parameters()).device
         B = len(texts)
 
@@ -104,8 +96,7 @@ class QwenEncoder(nn.Module):
         )
         input_ids = enc["input_ids"].to(device)
         attention_mask = enc["attention_mask"].to(device)
-        # offset_mapping: (B, seq_len, 2) – char offsets in formatted string
-        offset_mapping: torch.Tensor = enc["offset_mapping"]   # stay on CPU
+        offset_mapping: torch.Tensor = enc["offset_mapping"]
 
         ctx = torch.enable_grad() if self.config.use_lora else torch.no_grad()
         with ctx:
@@ -115,7 +106,7 @@ class QwenEncoder(nn.Module):
                 output_hidden_states=True,
                 return_dict=True,
             )
-        hidden: torch.Tensor = outputs.hidden_states[-1]   # (B, seq_len, D)
+        hidden: torch.Tensor = outputs.hidden_states[-1]
 
         result = torch.zeros(B, max_words, self.hidden_size, device=device)
 
